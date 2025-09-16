@@ -21,6 +21,15 @@ It's recommended to connect prettier and linter with IDE to fix some problems au
 
 ## Repo structure and naming convention
 
+- `src/` - workspace app
+    - `assets` - extra assets required to use inside components - images for example
+    - `componets` - reusable components which create views and app
+    - `styles` - global styles for app
+    - _(optional)_ `hooks` - custom React hooks for app
+    - _(optional)_ `views` - directory to place views which create application and include reusable components
+
+All directories and files should be named using `kebab-case` convention.
+
 `PascalCase` convention should be used for component names and Typescript types. 
 Constants should be named using `UPPER_CASE`.
 
