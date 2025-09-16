@@ -1,9 +1,14 @@
 import './App.css';
+import { Header } from './components/layout/header';
+import { MainContentWrapper } from './components/layout/main-content-wrapper';
 
 function App() {
   return (
     <>
-      <h1>Simple debt market</h1>
+      <Header />
+      <MainContentWrapper>
+        <>Main content wrapper</>
+      </MainContentWrapper>
     </>
   );
 }
