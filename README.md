@@ -1,5 +1,10 @@
 # Simple debt market Frontend Application
 
+## ENVIRONMENT VARIABLES
+- Create local `.env` file (is added to the `.gitignore` file)
+- Fill up the `.env` according to `.env.template` file
+- If you need to add new environment variable remember about describing it in `.env.template` file
+
 ## How to install and run the project
 
 `pnpm install` - install all dependencies
