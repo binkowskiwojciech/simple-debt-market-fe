@@ -1,9 +1,10 @@
-import { useFetchTopDebts } from '../../api';
+import { useFetchTopDebts, useSearchDebts } from '../../api';
 import { useMemo, useState } from 'react';
-import type { DebtDto } from '../../types/api';
+import type { Debt } from '../../types/api';
 import { NO_RESULTS_CONST } from '../../constants';
 import { formatDate } from 'date-fns';
 import { SortingDebtsOption, SortingDirection } from '../../types/debts';
+import { SearchDebt } from '../search-debt';
 
 interface TableHeadersConfig {
   header: string;
@@ -21,16 +22,19 @@ const DEFAULT_SORTING_OPTION: SortingDebtsOption = SortingDebtsOption.NAME;
 const DEFAULT_SORTING_DIRECTION: SortingDirection = SortingDirection.ASC;
 
 export const DebtTable = () => {
+  const [searchDebtQuery, setSearchDebtQuery] = useState('');
+
   const { data, isLoading, isError } = useFetchTopDebts();
+  const { data: filteredData, isLoading: filteredLoading } = useSearchDebts(searchDebtQuery);
 
   const [sortDebtsBy, setSortDebtsBy] = useState<SortingDebtsOption>(DEFAULT_SORTING_OPTION);
   const [sortingDirection, setSortingDirection] = useState<SortingDirection>(DEFAULT_SORTING_DIRECTION);
 
   const sortedDebts = useMemo(() => {
-    const dataToSort = data ?? [];
+    const dataToSort = (filteredData ? filteredData : data) ?? [];
     const multiplier = sortingDirection === SortingDirection.ASC ? 1 : -1;
 
-    dataToSort.sort((a: DebtDto, b: DebtDto) => {
+    dataToSort.sort((a: Debt, b: Debt) => {
       let result = 0;
 
       switch (sortDebtsBy) {
@@ -53,9 +57,7 @@ export const DebtTable = () => {
       return result * multiplier;
     });
     return dataToSort;
-  }, [data, sortDebtsBy, sortingDirection]);
-
-  if (isLoading) return <>Loading...</>;
+  }, [data, sortDebtsBy, sortingDirection, filteredData]);
 
   if (isError) return <p>Something went wrong. Please try again.</p>;
 
@@ -70,6 +72,7 @@ export const DebtTable = () => {
 
   return (
     <div className="w-full max-w-[1280px] mx-auto overflow-x-auto pt-4">
+      <SearchDebt onSearch={setSearchDebtQuery} />
       <table className="w-[1280px] border-spacing-2">
         <thead>
           <tr className="border-b">
@@ -91,21 +94,31 @@ export const DebtTable = () => {
           </tr>
         </thead>
         <tbody>
-          {!sortedDebts || sortedDebts.length === 0 ? (
+          {isLoading || filteredLoading ? (
             <tr className="text-center">
               <td className="py-4" colSpan={4}>
-                {NO_RESULTS_CONST}
+                Pobieranie danych...
               </td>
             </tr>
           ) : (
-            sortedDebts.map((debt) => (
-              <tr key={`debt-${debt.Id}`} className="text-left">
-                <td className="py-2">{debt.Name}</td>
-                <td className="py-2">{debt.NIP}</td>
-                <td className="py-2">{debt.Value}</td>
-                <td className="py-2">{formatDate(debt.Date, 'dd-MM-yyyy')}</td>
-              </tr>
-            ))
+            <>
+              {!sortedDebts || sortedDebts.length === 0 ? (
+                <tr className="text-center">
+                  <td className="py-4" colSpan={4}>
+                    {NO_RESULTS_CONST}
+                  </td>
+                </tr>
+              ) : (
+                sortedDebts.map((debt) => (
+                  <tr key={`debt-${debt.Id}`} className="text-left">
+                    <td className="py-2">{debt.Name}</td>
+                    <td className="py-2">{debt.NIP}</td>
+                    <td className="py-2">{debt.Value}</td>
+                    <td className="py-2">{formatDate(debt.Date, 'dd-MM-yyyy')}</td>
+                  </tr>
+                ))
+              )}
+            </>
           )}
         </tbody>
       </table>

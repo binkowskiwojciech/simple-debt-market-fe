@@ -6,3 +6,4 @@ export const API_SEGMENT_RECRUITMENT = 'Recruitment';
 
 // API specific endpoints
 export const API_ENDPOINT_TOP_DEBTS = 'GetTopDebts';
+export const API_ENDPOINT_FILTERED_DEBTS = 'GetFilteredDebts';

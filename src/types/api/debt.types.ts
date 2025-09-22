@@ -1,4 +1,8 @@
-export interface DebtDto {
+export interface SearchDebtsPayload {
+  phrase: string;
+}
+
+export interface Debt {
   Id: number;
   Name: string;
   NIP: string;

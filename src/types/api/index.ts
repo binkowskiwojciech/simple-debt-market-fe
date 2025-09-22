@@ -1,1 +1,1 @@
-export * from './debt.dto';
+export * from './debt.types.ts';
