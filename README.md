@@ -1,6 +1,7 @@
 # Simple debt market Frontend Application
 
 ## ENVIRONMENT VARIABLES
+
 - Create local `.env` file (is added to the `.gitignore` file)
 - Fill up the `.env` according to `.env.template` file
 - If you need to add new environment variable remember about describing it in `.env.template` file
@@ -27,15 +28,15 @@ It's recommended to connect prettier and linter with IDE to fix some problems au
 ## Repo structure and naming convention
 
 - `src/` - workspace app
-    - `assets` - extra assets required to use inside components - images for example
-    - `componets` - reusable components which create views and app
-    - `styles` - global styles for app
-    - _(optional)_ `hooks` - custom React hooks for app
-    - _(optional)_ `views` - directory to place views which create application and include reusable components
+  - `assets` - extra assets required to use inside components - images for example
+  - `componets` - reusable components which create views and app
+  - `styles` - global styles for app
+  - _(optional)_ `hooks` - custom React hooks for app
+  - _(optional)_ `views` - directory to place views which create application and include reusable components
 
 All directories and files should be named using `kebab-case` convention.
 
-`PascalCase` convention should be used for component names and Typescript types. 
+`PascalCase` convention should be used for component names and Typescript types.
 Constants should be named using `UPPER_CASE`.
 
 ## Component structure
